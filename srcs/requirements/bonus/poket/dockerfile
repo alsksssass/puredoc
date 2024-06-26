@@ -1,0 +1,12 @@
+FROM alpine:3.19
+
+RUN apk update && apk add nodejs=20.12.1-r0 && apk add npm=10.2.5-r0 && apk add git=2.43.4-r0 && apk add dumb-init=1.2.5-r3
+
+RUN git clone https://github.com/pagefaultgames/pokerogue.git
+WORKDIR /pokerogue
+COPY ./tools/pokerogue.sh /pokerogue/
+RUN npm install
+RUN chmod +rwx ./pokerogue.sh
+EXPOSE 12000
+
+ENTRYPOINT ["./pokerogue.sh"]

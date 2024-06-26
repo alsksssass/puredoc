@@ -1,0 +1,13 @@
+FROM alpine:3.19
+
+RUN apk update && apk add vsftpd=3.0.5-r2 && apk add dumb-init=1.2.5-r3
+
+COPY ./conf/vsftpd.conf /etc/vsftpd/vsftpd.conf
+COPY ./tools ./tools
+
+RUN chmod +rwx ./tools/ftp.sh
+
+EXPOSE 2121
+EXPOSE 50001-50005
+
+ENTRYPOINT ["./tools/ftp.sh"]

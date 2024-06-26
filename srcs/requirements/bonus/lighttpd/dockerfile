@@ -1,0 +1,13 @@
+FROM alpine:3.19
+
+RUN apk update && apk add lighttpd=1.4.76-r0
+
+COPY ./conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
+COPY ./tools ./tools
+
+RUN chmod +rwx ./tools/lighttpd.sh
+RUN mv ./tools/index.html /var/www/localhost/htdocs/index.html
+RUN chmod +rwx /var/www/localhost/htdocs/index.html
+EXPOSE 10000
+
+ENTRYPOINT ["./tools/lighttpd.sh"]

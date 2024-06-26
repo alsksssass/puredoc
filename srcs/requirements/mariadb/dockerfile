@@ -1,0 +1,12 @@
+FROM alpine:3.19
+
+RUN apk update && apk add mariadb=10.11.6-r0 && apk add mariadb-client=10.11.6-r0
+
+COPY ./conf/my.cnf.d /etc/my.cnf.d
+COPY ./tools ./tools
+
+RUN chmod +rwx ./tools/mariadb.sh
+
+EXPOSE 3306
+
+ENTRYPOINT ["./tools/mariadb.sh"]
